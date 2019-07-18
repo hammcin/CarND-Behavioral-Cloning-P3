@@ -9,6 +9,7 @@ from keras.models import Sequential, Model
 from keras.layers import Flatten, Dense, Lambda, Convolution2D, MaxPooling2D
 from keras.layers import Cropping2D, Activation, BatchNormalization
 from keras.callbacks import ModelCheckpoint
+import matplotlib.pyplot as plt
 
 # Load csv file with image paths and steering angles into different lists
 # for training set and validation set
@@ -98,6 +99,16 @@ def net(loss='mse', optimizer='adam'):
 
     return model
 
+# Save a figure with loss over epochs for training and validation sets
+def loss_fig(history_object, file_name='model_mse_loss.jpg'):
+    plt.plot(history_object.history['loss'])
+    plt.plot(history_object.history['val_loss'])
+    plt.title('model mean squared error loss')
+    plt.ylabel('mean squared error loss')
+    plt.xlabel('epoch')
+    plt.legend(['training set', 'validation set'], loc='upper right')
+    plt.savefig(file_name)
+
 def main():
 
     # parameters for training
@@ -113,6 +124,19 @@ def main():
 
     # instatiate model
     model = net()
+
+    # Train model
+    checkpoint = ModelCheckpoint("model.h5", save_best_only=True)
+    callbacks_list = [checkpoint]
+    history_object = model.fit_generator(train_generator,
+                        steps_per_epoch=(len(train_samples)//n_batch) + 1,
+                        callbacks=callbacks_list,
+                        validation_data=validation_generator,
+                        validation_steps=(len(validation_samples)//n_batch) + 1,
+                        epochs=30)
+
+    # Generate figure of loss over epochs and save
+    loss_fig(history_object)
 
 if __name__ == '__main__':
     main()
