@@ -68,29 +68,37 @@ def net(loss='mse', optimizer='adam'):
     model.add(Cropping2D(cropping=((70,25),(0,0))))
 
     model.add(Convolution2D(24,(5,5),strides=(2,2)))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Convolution2D(36,(5,5),strides=(2,2)))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Convolution2D(48,(5,5),strides=(2,2)))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Convolution2D(64,(3,3)))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Convolution2D(64,(3,3)))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Flatten())
 
     model.add(Dense(100))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Dense(50))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Dense(10))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Dense(1))
