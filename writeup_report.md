@@ -162,3 +162,9 @@ I used this training data for training the model. The validation set helped dete
 ![alt text][image7]
 
 I used an adam optimizer so that manually tuning the learning rate wasn't necessary.
+
+### Simulation
+
+#### 1. Car Navigation on Test Data
+
+Here's a [link to my video result](./video.mp4).
